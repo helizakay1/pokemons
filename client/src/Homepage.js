@@ -57,7 +57,7 @@ function Homepage() {
                 <td>{pokemon.name.english}</td>
 
                 <td>
-                  <Link to={`/pokemons/${pokemon.id}`}>
+                  <Link to={`/${pokemon.id}`}>
                     <button className="button-details">More Details</button>
                   </Link>
                 </td>

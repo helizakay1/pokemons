@@ -14,7 +14,6 @@ function DetailsPage() {
     fetch(`/pokemons/${params.id}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setDetails(data);
         setName(data.name);
         setType(data.type);
