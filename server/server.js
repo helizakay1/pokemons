@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const fs = require("fs");
+const path = require("path");
 
 const POKEMONS_FILE = "pokemon-data/pokedex.json";
 
