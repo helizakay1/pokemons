@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const fs = require("fs");
 const path = require("path");
 
-const POKEMONS_FILE = "pokemon-data/pokedex.json";
+const POKEMONS_FILE = "pokedex.json";
 
 const app = express();
 
@@ -20,8 +20,7 @@ app.use(express.static(path.resolve(__dirname, "../client/build")));
 app.get("/pokemons", function (req, res) {
   fs.readFile(__dirname + "/" + POKEMONS_FILE, "utf8", function (err, data) {
     if (err) {
-      console.log("An error occured while reading JSON file.", err);
-      res.sendStatus(500);
+      res.status(500).send("An error occured while reading JSON file.", err);
     }
     res.status(200).send(data);
   });
@@ -32,13 +31,11 @@ app.get("/pokemons/:id", function (req, res) {
   // First read existing users.
   fs.readFile(__dirname + "/" + POKEMONS_FILE, "utf8", function (err, data) {
     if (err) {
-      console.log("An error occured while reading JSON file.", err);
-      res.sendStatus(500);
+      res.status(500).send("An error occured while reading JSON file.", err);
     }
     const pokemons = JSON.parse(data);
     const pokemon = pokemons.find((pokemon) => pokemon.id == req.params.id);
     if (!pokemon) {
-      console.log(`No pokemon found with id ${req.params.id}`);
       res.status(400).send(`No pokemon found with id ${req.params.id}`);
     }
     res.status(200).send(JSON.stringify(pokemon));
@@ -46,7 +43,7 @@ app.get("/pokemons/:id", function (req, res) {
 });
 
 // All other GET requests not handled before will return our React app
-app.get("*", (req, res) => {
+app.get("/*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
 });
 
@@ -55,8 +52,7 @@ app.patch("/pokemons/:id", function (req, res) {
   // First read existing users.
   fs.readFile(__dirname + "/" + POKEMONS_FILE, "utf8", (err, data) => {
     if (err) {
-      console.log("An error occured while reading JSON file.", err);
-      res.sendStatus(500);
+      res.status(500).send("An error occured while reading JSON file.", err);
     }
     let pokemons = JSON.parse(data);
     if (!req?.body?.updated) {
@@ -76,11 +72,9 @@ app.patch("/pokemons/:id", function (req, res) {
       "utf8",
       (err) => {
         if (err) {
-          console.log(
-            "An error occured while writing JSON Object to File.",
-            err
-          );
-          res.sendStatus(500);
+          res
+            .status(500)
+            .send("An error occured while writing JSON Object to File.", err);
         }
         res.sendStatus(200);
       }
