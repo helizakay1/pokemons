@@ -7,7 +7,7 @@ function DetailsPage() {
   const [details, setDetails] = useState({});
   const [editMode, setEditMode] = useState(false);
   const [name, setName] = useState("");
-  const [type, setType] = useState("");
+  const [type, setType] = useState([]);
   const [base, setBase] = useState({});
   const params = useParams();
   React.useEffect(() => {
@@ -83,11 +83,11 @@ function DetailsPage() {
             {`Type: `}
             {editMode ? (
               <input
-                value={type}
-                onChange={(e) => setType(e.target.value)}
+                value={type.join(", ")}
+                onChange={(e) => setType(e.target.value.split(", "))}
               ></input>
             ) : (
-              details?.type
+              details?.type && type.join(", ")
             )}
           </h2>
           <h2>{`Base: `}</h2>
