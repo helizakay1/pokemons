@@ -7,9 +7,6 @@ const POKEMONS_FILE = "pokedex.json";
 
 const app = express();
 
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }));
-
 // parse application/json
 app.use(bodyParser.json());
 
@@ -40,11 +37,6 @@ app.get("/pokemons/:id", function (req, res) {
     }
     res.status(200).send(JSON.stringify(pokemon));
   });
-});
-
-// All other GET requests not handled before will return our React app
-app.get("/*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
 });
 
 // Edit existing pokemon by id
@@ -80,6 +72,11 @@ app.patch("/pokemons/:id", function (req, res) {
       }
     );
   });
+});
+
+// All other GET requests not handled before will return our React app
+app.get("/*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
 });
 
 const PORT = process.env.PORT || 8081;
